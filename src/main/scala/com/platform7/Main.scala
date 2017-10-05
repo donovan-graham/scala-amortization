@@ -1,30 +1,18 @@
 package com.platform7
 
-import com.platform7.serializers.{BigDecimalSerializer, MonthlyAmortizationSerializer}
-import net.liftweb.json.{DefaultFormats, Serialization}
+import com.platform7.controllers.MainController
+import com.twitter.finatra.http.HttpServer
+import com.twitter.finatra.http.routing.HttpRouter
 
-object Main extends App {
+object Main extends Server
 
-  val principalValue = BigDecimal(1250000)
-  val years = 20
-  val annualInterestRate = BigDecimal(0.0925)
-  val monthlyRepayment = Amortization.calculateMonthlyRepayment(principalValue, annualInterestRate, years)
-  val totalRepayment = Amortization.calculateTotalRepayment(monthlyRepayment, years)
-  val totalInterest = totalRepayment - principalValue
+class Server extends HttpServer {
 
+  override protected def defaultFinatraHttpPort: String = ":8080"
 
-  val monthlyRepayments = Amortization.calculateMonthlyRepayments(principalValue, annualInterestRate, years, Some(monthlyRepayment))
+  override protected def defaultHttpServerName: String = "Amortization Server"
 
-  println(s"The total bond amount is R$principalValue")
-  println(s"The monthly repayment is R$monthlyRepayment")
-  println(s"The total interest repaid is R$totalInterest")
-  println(s"The total bond repayment is R$totalRepayment")
-
-//  monthlyRepayments.foreach { println }
-
-//  implicit val formats = DefaultFormats + new MonthlyAmortizationSerializer
-  implicit val formats = DefaultFormats + new BigDecimalSerializer
-  val jsonString = Serialization.writePretty(monthlyRepayments)
-  println(jsonString)
-
+  override protected def configureHttp(router: HttpRouter): Unit = {
+    router.add(new MainController)
+  }
 }

@@ -1,6 +1,6 @@
 package com.platform7.models
 
-import com.platform7.Format.roundAmount
+import com.platform7.utils.Format.roundAmount
 
 case class MonthlyAmortization(openingBalance: BigDecimal,
                                loanRepayment: BigDecimal,

@@ -1,6 +1,6 @@
-package com.platform7
+package com.platform7.utils
 
-case class CashFlow(period: Int, amount: BigDecimal, group: String)
+import com.platform7.models.CashFlow
 
 object Distrubition {
   private def periodToYear(period: Int): Int = Math.floor((period / 12).toDouble).toInt

@@ -1,4 +1,4 @@
-package com.platform7
+package com.platform7.utils
 
 import com.platform7.models.MonthlyAmortization
 
